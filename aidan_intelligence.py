@@ -10,8 +10,13 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+porcupine = pvporcupine.create(
+    access_key = os.getenv("ACCESS_KEY"),
+    keyword_paths = ['Big-Red_en_raspberry-pi_v3_0_0.ppn']
+)
+
 # function to record audio from microphone
-def record_audio(filename, duration=5, fs=16000):
+def record_audio(filename, duration=7, fs=16000):
     print("Recording...")
     recording = sd.rec(int(duration * fs), samplerate=fs, channels=1, device=3)
     sd.wait() # wait for recording to finish
@@ -64,6 +69,6 @@ if __name__ == "__main__":
     record_audio("my_recording.wav")
     transcribed_query = speech_to_text("my_recording.wav") #transcribe audio
     response_to_query = get_gpt_response(transcribed_query) #get response from gpt from transcription
-
+        
     gpt_response_to_sound_file(response_to_query) #turn gpt response to sound file
     play_sound_file("output_sound_file_to_user.mp3")
