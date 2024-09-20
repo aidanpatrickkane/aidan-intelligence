@@ -1,3 +1,6 @@
+import pvporcupine
+import pyaudio
+import struct
 import sounddevice as sd
 import soundfile as sf
 import openai
@@ -66,9 +69,43 @@ def play_sound_file(file_path):
     pygame.mixer.quit()
 
 if __name__ == "__main__":
-    record_audio("my_recording.wav")
-    transcribed_query = speech_to_text("my_recording.wav") #transcribe audio
-    response_to_query = get_gpt_response(transcribed_query) #get response from gpt from transcription
-        
-    gpt_response_to_sound_file(response_to_query) #turn gpt response to sound file
-    play_sound_file("output_sound_file_to_user.mp3")
+    # Initialize PyAudio
+    pa = pyaudio.PyAudio()
+    audio_stream = pa.open(
+        rate=porcupine.sample_rate,
+        channels=1,
+        format=pyaudio.paInt16,
+        input=True,
+        input_device_index=3,
+        frames_per_buffer=porcupine.frame_length
+    )
+
+    print("Listening for wake words...")
+
+    try:
+        while True:
+            # Read audio stream in small chunks and process with Porcupine
+            pcm = audio_stream.read(porcupine.frame_length)
+            pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+            
+            keyword_index = porcupine.process(pcm)
+            if keyword_index >= 0:
+                print("Wake word detected! Listening for your question...")
+                
+                # Once wake word is detected, run your main logic
+                record_audio("my_recording.wav")
+                transcribed_query = speech_to_text("my_recording.wav")  # transcribe audio
+                response_to_query = get_gpt_response(transcribed_query)  # get response from GPT
+                
+                gpt_response_to_sound_file(response_to_query)  # generate speech file
+                play_sound_file("output_sound_file_to_user.mp3")  # play the speech file
+            
+    except KeyboardInterrupt:
+        print("Stopping...")
+    finally:
+        if porcupine is not None:
+            porcupine.delete()
+        if audio_stream is not None:
+            audio_stream.close()
+        if pa is not None:
+            pa.terminate()
