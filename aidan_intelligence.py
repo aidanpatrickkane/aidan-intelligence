@@ -34,7 +34,7 @@ def get_gpt_response(transcribed_query):
     response = openai.chat.completions.create(
         model="gpt-4o",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful assistant that answers queries in 2-3 sentences."},
             {"role": "user", "content": transcribed_query}
         ]
     )
