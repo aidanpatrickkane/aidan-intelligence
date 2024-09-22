@@ -1,0 +1,19 @@
+pygame 2.6.0 (SDL 2.28.4, Python 3.11.2)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Listening for wake words...
+Wake word detected! Listening for your question...
+Recording...
+Recording complete!
+Thank you for watching!
+Wake word detected! Listening for your question...
+Recording...
+Recording complete!
+How are you today?
+Traceback (most recent call last):
+  File "/home/kaneaidan12/Projects/aidan-intelligence/aidan_intelligence.py", line 106, in <module>
+    gpt_response_to_sound_file(response_to_query)  # generate speech file
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kaneaidan12/Projects/aidan-intelligence/aidan_intelligence.py", line 70, in play_sound_file
+    #mixer.music.load(file_path)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pygame.error: mixer not initialized

@@ -4,3 +4,6 @@ venv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+my_recording.wav
+output_sound_file_to_user.mp3

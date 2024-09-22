@@ -4,7 +4,6 @@ import struct
 import sounddevice as sd
 import soundfile as sf
 import openai
-import pygame
 from pathlib import Path
 from dotenv import load_dotenv  # for loading environment variables
 import os  # for accessing environment variables
@@ -61,12 +60,7 @@ def gpt_response_to_sound_file(gpt_response_text):
         audio_file.write(response.content)
     
 def play_sound_file(file_path):
-    pygame.mixer.init()
-    pygame.mixer.music.load(file_path)
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy():  # Wait until the sound finishes playing
-        continue
-    pygame.mixer.quit()
+    os.system(f'mpg123 {file_path}')
 
 if __name__ == "__main__":
     # Initialize PyAudio
